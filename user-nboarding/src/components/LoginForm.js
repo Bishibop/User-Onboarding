@@ -22,6 +22,7 @@ function LoginForm({ values, errors, touched }) {
         {touched.role && errors.role && <p>{errors.role}</p>}
       </div>
       <Field component="select" name="role">
+        <option value="">What is your role?</option>
         <option value="frontend">Frontend Developer</option>
         <option value="backend">Backend Developer</option>
         <option value="CTO">Chief Technology Officer</option>
@@ -41,7 +42,7 @@ function LoginForm({ values, errors, touched }) {
 }
 
 const FormikLoginForm = withFormik({
-  mapPropsToValues({ name, email, password, role, tos }) {
+  mapPropsToValues: ({ name, email, password, role, tos }) => {
     return {
       name: name || "",
       email: email || "",
@@ -68,7 +69,7 @@ const FormikLoginForm = withFormik({
       .equals([true], "YOU MUST ACCEPT")
   }),
 
-  handleSubmit(values, bag) {
+  handleSubmit: (values, bag) => {
     axios.post('https://reqres.in/api/users', values).then(response => {
       bag.props.appendToUsers(response.data);
       bag.resetForm();
